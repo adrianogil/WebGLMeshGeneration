@@ -1,2 +1,2 @@
-# WebGLMeshGeneration
-Few experiments with procedural meshes in WebGL
+# WebGLIntro
+Few examples of WebGL
