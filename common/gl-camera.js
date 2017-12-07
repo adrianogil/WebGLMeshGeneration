@@ -23,6 +23,6 @@ var GLCamera = new function()
                        this.zNear,
                        this.zFar);
         // Only one camera per scene
-        GLManager.projectionMatrix = projectionMatrix;
+        GLManager.projectionMatrix = this.projectionMatrix;
     }
 }

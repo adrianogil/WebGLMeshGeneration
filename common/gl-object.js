@@ -1,8 +1,8 @@
 class GLObject
 {
-    constructor()
+    constructor(objectname)
     {
-        this.vertices = [];
+        this.name = objectname;
         this.transform = new GLTransform();
     }
 

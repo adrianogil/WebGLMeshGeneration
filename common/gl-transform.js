@@ -2,6 +2,8 @@ class GLTransform
 {
     constructor()
     {
-        this.position = {x: 0.0, y: 0.0, z: 0.0};
+        this.position = new Vector3();
+        this.position.z = -10.0;
+        this.rotation = new Vector3();
     }
 }

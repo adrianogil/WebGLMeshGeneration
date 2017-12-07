@@ -7,6 +7,11 @@ class GLScene
         this.backgroundColor = GLColor.Black(); // Clear to black, fully opaque
     }
 
+    addObject(obj)
+    {
+        this.objects = this.objects.concat(obj);
+    }
+
     onStart(gl)
     {
         const totalObjects = this.objects.length;
@@ -42,6 +47,8 @@ class GLScene
 
         // Clear the canvas before we start drawing on it
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+        GLCamera.onFrameBegin(gl);
 
         const totalObjects = this.objects.length;
 
