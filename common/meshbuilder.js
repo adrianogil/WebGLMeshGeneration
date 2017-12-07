@@ -16,15 +16,28 @@ class MeshBuilder
 
     addQuad(p,v1,v2)
     {
+        var i = this.vertices.length;
+
         this.addVertex(p);
         this.addVertex(p.add(v1));
         this.addVertex(p.add(v2));
         this.addVertex(p.add(v1).add(v2));
 
-        this.addTriangle(0,1,3);
-        this.addTriangle(0,3,1);
-        this.addTriangle(0,2,3);
-        this.addTriangle(0,3,2);
+        this.addTriangle(i,i+1,i+3);
+        this.addTriangle(i,i+3,i+1);
+        this.addTriangle(i,i+2,i+3);
+        this.addTriangle(i,i+3,i+2);
+    }
+
+    addCube(p,v1,v2,v3)
+    {
+        this.addQuad(p,v1,v2);
+        this.addQuad(p,v1,v3);
+        this.addQuad(p,v2,v3);
+
+        this.addQuad(p.add(v3),v1,v2);
+        this.addQuad(p.add(v2),v1,v3);
+        this.addQuad(p.add(v1),v2,v3);
     }
 
     createMesh(meshObject)
@@ -37,6 +50,14 @@ class MeshBuilder
     {
         var meshBuilder = new MeshBuilder();
         meshBuilder.addQuad(p,v1,v2);
+
+        return meshBuilder.createMesh(meshObject);
+    }
+
+    static createCube(meshObject,p,v1,v2,v3)
+    {
+        var meshBuilder = new MeshBuilder();
+        meshBuilder.addCube(p,v1,v2,v3);
 
         return meshBuilder.createMesh(meshObject);
     }

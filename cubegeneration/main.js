@@ -14,9 +14,16 @@ function main()
     MeshBuilder.createQuad(quad, p, v1, v2);
     scene.addObject(quad);
 
+    var v3 = new Vector3(0,0,1);
+
+    var cube = new GLMeshObject("cube");
+    MeshBuilder.createCube(cube, p, v1, v2, v3);
+    scene.addObject(cube);
+
     function update(now)
     {
-        quad.transform.rotation = quad.transform.rotation.add(new Vector3(0.0, 0.01, 0.01));
+        quad.transform.rotate(new Vector3(0.0, 0.01, 0.01));
+        cube.transform.rotate(new Vector3(0.0, -0.01, -0.01));
 
         requestAnimationFrame(update);
     }
