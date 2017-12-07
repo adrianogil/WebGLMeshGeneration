@@ -26,13 +26,18 @@ class GLMeshObject extends GLObject
         this.material.onStart(gl);
     }
 
+    enableBuffers(gl)
+    {
+        this.buffers[this.bufferPositionName].enableBuffer(gl,
+              this.material.getAttrib(this.bufferPositionName));
+        this.buffers["triangles"].enableBuffer(gl);
+    }
+
     draw(gl)
     {
         super.draw(gl);
 
-        this.buffers[this.bufferPositionName].enableBuffer(gl,
-            this.material.getAttrib(this.bufferPositionName));
-        this.buffers["triangles"].enableBuffer(gl);
+        this.enableBuffers(gl);
 
         this.material.enableMaterial(gl);
 
