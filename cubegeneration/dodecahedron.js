@@ -1,8 +1,10 @@
 var Dodecahedron = new function()
 {
-    this.meshbuilder = null;
+    this.meshBuilder = null;
     this.create = function(meshObject)
     {
+        alert("Created started!");
+
         this.meshBuilder = new MeshBuilder();
 
         this.meshBuilder.addVertex(new Vector3(-1,-1,-1)); // 0
@@ -32,6 +34,30 @@ var Dodecahedron = new function()
         this.meshBuilder.addVertex(new Vector3(-phi, 0,  1/phi)); // 18
         this.meshBuilder.addVertex(new Vector3( phi, 0,  1/phi)); // 19
 
+        this.meshBuilder.wireQuadSize = 4;
+        this.meshBuilder.wireQuadCoord = this.meshBuilder.wireQuadCoord.concat(
+            0,0,0,1,
+            0,0,1,0,
+            0,1,0,0,
+            1,0,0,0,
+            0,0,0,1,
+            0,0,1,0,
+            0,1,0,0,
+            1,0,0,0,
+            0,0,0,1,
+            0,0,1,0,
+            0,1,0,0,
+            1,0,0,0,
+            0,0,0,1,
+            0,0,1,0,
+            0,1,0,0,
+            1,0,0,0,
+            0,0,0,1,
+            0,0,1,0,
+            0,1,0,0,
+            1,0,0,0
+            );
+
         this.addDodecahedronFace(7, 19, 17, 6, 15);
         this.addDodecahedronFace(6, 17, 4, 8, 10);
         this.addDodecahedronFace(15, 6, 10, 2, 13);
@@ -45,25 +71,26 @@ var Dodecahedron = new function()
         this.addDodecahedronFace(19, 7, 11, 9, 5);
         this.addDodecahedronFace(5, 9, 1, 12, 14);
 
-        this.addInternalCubeFace( 2, 6, 4, 0);
-        this.addInternalCubeFace( 6, 7, 5, 4);
-        this.addInternalCubeFace( 7, 3, 1, 5);
-        this.addInternalCubeFace( 3, 2, 0, 1);
-        this.addInternalCubeFace( 3, 7, 6, 2);
-        this.addInternalCubeFace( 5, 1, 0, 4);
+        // this.addInternalCubeFace( 2, 6, 4, 0);
+        // this.addInternalCubeFace( 6, 7, 5, 4);
+        // this.addInternalCubeFace( 7, 3, 1, 5);
+        // this.addInternalCubeFace( 3, 2, 0, 1);
+        // this.addInternalCubeFace( 3, 7, 6, 2);
+        // this.addInternalCubeFace( 5, 1, 0, 4);
 
         this.meshBuilder.createMesh(meshObject);
+
+        alert("Created finished!");
     };
     this.addDodecahedronFace = function(v1,v2,v3,v4,v5)
     {
         this.meshBuilder.addTriangle(v1, v4, v5);
         this.meshBuilder.addTriangle(v2, v4, v1);
         this.meshBuilder.addTriangle(v3, v4, v2);
-    }
-
+    };
     this.addInternalCubeFace = function(v1,v2,v3,v4)
     {
         this.meshBuilder.addTriangle(v4, v3, v1);
         this.meshBuilder.addTriangle(v3, v2, v1);
-    }
+    };
 }

@@ -23,15 +23,15 @@ function main()
     cube.transform.position.z += 5;
     scene.addObject(cube);
 
-    // var dode = new GLMeshObject("dodecahedron");
-    // Dodecahedron.create(dode);
-    // scene.addObject(dode);
+    var dode = new GLWireMeshObject("dodecahedron");
+    Dodecahedron.create(dode);
+    scene.addObject(dode);
 
     function update(now)
     {
         quad.transform.rotate(new Vector3(0.0, 0.01, 0.01));
         cube.transform.rotate(new Vector3(0.0, -0.01, -0.01));
-        // dode.transform.rotate(new Vector3(0.01, 0.01, -0.01));
+        dode.transform.rotate(new Vector3(0.01, 0.01, -0.01));
 
         requestAnimationFrame(update);
     }

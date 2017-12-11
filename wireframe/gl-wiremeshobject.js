@@ -7,6 +7,7 @@ class GLWireMeshObject extends GLMeshObject
         this.wireQuadCoord = [];
 
         this.wireQuadCoordName = "aWireQuadCoord";
+        this.wireQuadSize = 4;
 
         var attribNames = [this.bufferPositionName, this.wireQuadCoordName];
         var uniformNames = ["uModelViewMatrix", "uProjectionMatrix"];
@@ -22,7 +23,7 @@ class GLWireMeshObject extends GLMeshObject
         this.buffers[this.wireQuadCoordName] = new GLBuffer(
             gl.ARRAY_BUFFER,
             gl.FLOAT,
-            4
+            this.wireQuadSize
             );
         this.buffers[this.wireQuadCoordName].createBuffer(gl, this.wireQuadCoord);
     }

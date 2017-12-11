@@ -5,7 +5,7 @@ class MeshBuilder
         this.vertices = [];
         this.triangles = [];
         this.wireQuadCoord = [];
-        this.wireDodeCoord = [];
+        this.wireQuadSize = 3;
     }
 
     addVertex(v) {
@@ -31,10 +31,10 @@ class MeshBuilder
         this.addTriangle(i,i+3,i+2);
 
         this.wireQuadCoord = this.wireQuadCoord.concat(
-            0,0,0,1,
-            0,0,1,0,
-            0,1,0,0,
-            1,0,0,0
+            1,0,0,
+            0,0,1,
+            0,0,1,
+            0,1,0
             );
     }
 
@@ -54,6 +54,7 @@ class MeshBuilder
         meshObject.vertices = this.vertices;
         meshObject.triangles = this.triangles;
         meshObject.wireQuadCoord = this.wireQuadCoord;
+        meshObject.wireQuadSize = this.wireQuadSize;
     }
 
     static createQuad(meshObject,p,v1,v2)
