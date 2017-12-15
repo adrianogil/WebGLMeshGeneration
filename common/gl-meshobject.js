@@ -8,22 +8,47 @@ class GLMeshObject extends GLObject
         this.triangles = [];
 
         this.buffers = {};
+        this.bufferData = [];
 
         this.bufferPositionName = "aVertexPosition";
 
-        var attribNames = [this.bufferPositionName];
-        var uniformNames = ["uModelViewMatrix", "uProjectionMatrix"];
+        this.attribNames = [this.bufferPositionName];
+        this.uniformNames = ["uModelViewMatrix", "uProjectionMatrix"];
 
-        this.material = new GLMaterial(attribNames, uniformNames);
+        this.material = null;
     }
 
     onStart(gl)
     {
         super.onStart(gl);
 
+        this.generateMaterial();
+
         this.createBuffers(gl);
 
         this.material.onStart(gl);
+    }
+
+    generateMaterial()
+    {
+        if (this.material == null)
+        {
+            this.material = new GLMaterial(this.attribNames, this.uniformNames);
+        }
+    }
+
+    addAttribBufferData(bufferName, bufferData, bufferComponentsSize)
+    {
+        this.bufferData = this.bufferData.concat(
+            {
+              "name" : bufferName,
+              "data" : bufferData,
+              "size" : bufferComponentsSize
+            }
+          );
+        this.attribNames = this.attribNames.concat(
+            bufferName
+          );
     }
 
     enableBuffers(gl)
@@ -31,6 +56,14 @@ class GLMeshObject extends GLObject
         this.buffers[this.bufferPositionName].enableBuffer(gl,
               this.material.getAttrib(this.bufferPositionName));
         this.buffers["triangles"].enableBuffer(gl);
+
+        const totalBufferData = this.bufferData.length;
+
+        for (var i = 0; i < totalBufferData; i++)
+        {
+            this.buffers[this.bufferData[i].name].enableBuffer(gl,
+              this.material.getAttrib(this.this.bufferData[i].name));
+        }
     }
 
     draw(gl)
@@ -99,6 +132,18 @@ class GLMeshObject extends GLObject
             gl.ELEMENT_ARRAY_BUFFER
             );
         this.buffers["triangles"].createBuffer(gl, this.triangles);
+
+        const totalBufferData = this.bufferData.length;
+
+        for (var i = 0; i < totalBufferData; i++)
+        {
+            this.buffers[this.bufferData[i].name] = new GLBuffer(
+                gl.ARRAY_BUFFER,
+                gl.FLOAT,
+                this.bufferData[i].size
+              )
+            this.buffers[this.bufferData[i].name].createBuffer(gl, this.bufferData[i].data);
+        }
     }
 
     getModelViewMatrix(gl)
