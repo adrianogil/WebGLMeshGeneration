@@ -1,12 +1,13 @@
+// Color example
 function getFragmentShader()
 {
     const fsSource = `
-        varying highp vec2 vTextureCoord;
+        varying lowp vec4 vColor;
 
         uniform sampler2D uSampler;
 
         void main(void) {
-          gl_FragColor = texture2D(uSampler, vTextureCoord);
+          gl_FragColor = vColor;
         }
       `;
     return fsSource;
