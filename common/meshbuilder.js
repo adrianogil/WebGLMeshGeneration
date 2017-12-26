@@ -4,6 +4,7 @@ class MeshBuilder
     {
         this.vertices = [];
         this.triangles = [];
+        this.uvs = [];
     }
 
     addVertex(v) {
@@ -12,6 +13,10 @@ class MeshBuilder
 
     addTriangle(t1,t2,t3) {
         this.triangles = this.triangles.concat(t1,t2,t3);
+    }
+
+    addUV(u,v) {
+        this.uvs = this.uvs.concat(u,v);
     }
 
     addQuad(p,v1,v2)
@@ -27,6 +32,11 @@ class MeshBuilder
         this.addTriangle(i,i+3,i+1);
         this.addTriangle(i,i+2,i+3);
         this.addTriangle(i,i+3,i+2);
+
+        this.addUV(0,0);
+        this.addUV(0,1);
+        this.addUV(1,0);
+        this.addUV(1,1);
     }
 
     addCube(p,v1,v2,v3)
@@ -44,6 +54,7 @@ class MeshBuilder
     {
         meshObject.vertices = this.vertices;
         meshObject.triangles = this.triangles;
+        meshObject.uvs = this.uvs;
     }
 
     static createQuad(meshObject,p,v1,v2)

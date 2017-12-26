@@ -1,6 +1,6 @@
 class GLMaterial
 {
-    constructor(attribNames, uniformNames)
+    constructor(attribNames, uniformNames, mainTexture)
     {
         this.vertexShaderSource = getVertexShader();
         this.fragmentShaderSource = getFragmentShader();
@@ -13,6 +13,9 @@ class GLMaterial
 
         this.attribLocations = {};
         this.uniformLocations = {};
+
+        this.textureUniformName = "_MainTex";
+        this.mainTexture = mainTexture;
     }
 
     onStart(gl)
@@ -35,12 +38,29 @@ class GLMaterial
             this.uniformLocations[this.uniformNames[i]] =
                 gl.getUniformLocation(this.shaderProgram, this.uniformNames[i]);
         }
+
+        // Texture
+        if (this.mainTexture != null)
+        {
+            this.uniformLocations[this.textureUniformName] =
+                    gl.getUniformLocation(this.shaderProgram, this.textureUniformName);
+                this.mainTexture.loadTexture(gl);
+        }
     }
 
+    // enableMaterial
+    //   -> Called every frame
     enableMaterial(gl)
     {
         // Tell WebGL to use our program when drawing
         gl.useProgram(this.shaderProgram);
+
+        if (this.mainTexture != null)
+        {
+            this.mainTexture.activeTexture(gl,
+              this.uniformLocations[this.textureUniformName]);
+        }
+
     }
 
     getAttrib(name)

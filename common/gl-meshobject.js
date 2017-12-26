@@ -4,13 +4,18 @@ class GLMeshObject extends GLObject
     {
         super(objectname)
 
+        this.mainTexture = null;
+
         this.vertices = [];
         this.triangles = [];
+
+        this.uvs = [];
 
         this.buffers = {};
         this.bufferData = [];
 
         this.bufferPositionName = "aVertexPosition";
+        this.bufferUVName = "aTextureCoord";
 
         this.attribNames = [this.bufferPositionName];
         this.uniformNames = ["uModelViewMatrix", "uProjectionMatrix"];
@@ -29,11 +34,23 @@ class GLMeshObject extends GLObject
         this.material.onStart(gl);
     }
 
+    addTexture(textureObj)
+    {
+        this.mainTexture = textureObj;
+    }
+
     generateMaterial()
     {
         if (this.material == null)
         {
-            this.material = new GLMaterial(this.attribNames, this.uniformNames);
+            if (this.uvs.length > 0)
+            {
+                this.material = new GLMaterial(this.attribNames.concat(this.bufferUVName),
+                      this.uniformNames, this.mainTexture);
+            } else
+            {
+                this.material = new GLMaterial(this.attribNames, this.uniformNames, this.mainTexture);
+            }
         }
     }
 
@@ -56,6 +73,12 @@ class GLMeshObject extends GLObject
         this.buffers[this.bufferPositionName].enableBuffer(gl,
               this.material.getAttrib(this.bufferPositionName));
         this.buffers["triangles"].enableBuffer(gl);
+
+        if (this.uvs.length > 0)
+        {
+            this.buffers[this.bufferUVName].enableBuffer(gl,
+              this.material.getAttrib(this.bufferUVName));
+        }
 
         const totalBufferData = this.bufferData.length;
 
@@ -132,6 +155,17 @@ class GLMeshObject extends GLObject
             gl.ELEMENT_ARRAY_BUFFER
             );
         this.buffers["triangles"].createBuffer(gl, this.triangles);
+
+        // Create buffers for UVs
+        if (this.uvs.length > 0)
+        {
+            this.buffers[this.bufferUVName] = new GLBuffer(
+              gl.ARRAY_BUFFER,
+              gl.FLOAT,
+              2
+            );
+            this.buffers[this.bufferUVName].createBuffer(gl, this.uvs);
+        }
 
         const totalBufferData = this.bufferData.length;
 
