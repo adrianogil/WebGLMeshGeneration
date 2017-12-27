@@ -5,6 +5,8 @@ class MeshBuilder
         this.vertices = [];
         this.triangles = [];
         this.uvs = [];
+
+        this.normals = [];
     }
 
     addVertex(v) {
@@ -19,7 +21,7 @@ class MeshBuilder
         this.uvs = this.uvs.concat(u,v);
     }
 
-    addQuad(p,v1,v2)
+    addQuad(p,v1,v2,n)
     {
         var i = this.vertices.length;
 
@@ -37,6 +39,22 @@ class MeshBuilder
         this.addUV(0,1);
         this.addUV(1,0);
         this.addUV(1,1);
+
+        if (n == null)
+        {
+            n = Vector3.crossProduct(v1,v2);
+        }
+
+        this.addNormal(n);
+        this.addNormal(n);
+        this.addNormal(n);
+        this.addNormal(n);
+
+    }
+
+    addNormal(n)
+    {
+        this.normals = this.normals.concat(n);
     }
 
     addCube(p,v1,v2,v3)
@@ -55,6 +73,11 @@ class MeshBuilder
         meshObject.vertices = this.vertices;
         meshObject.triangles = this.triangles;
         meshObject.uvs = this.uvs;
+        meshObject.addAttribBufferData(
+            "aVertexNormal",
+            Vector3.fromListToArray(this.normals),
+            3
+            );
     }
 
     static createQuad(meshObject,p,v1,v2)

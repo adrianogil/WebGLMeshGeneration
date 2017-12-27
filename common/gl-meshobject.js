@@ -18,7 +18,7 @@ class GLMeshObject extends GLObject
         this.bufferUVName = "aTextureCoord";
 
         this.attribNames = [this.bufferPositionName];
-        this.uniformNames = ["uModelViewMatrix", "uProjectionMatrix"];
+        this.uniformNames = ["uModelViewMatrix", "uProjectionMatrix", "uNormalMatrix"];
 
         this.material = null;
     }
@@ -108,6 +108,15 @@ class GLMeshObject extends GLObject
         false,
         this.getModelViewMatrix(gl)
         );
+
+      const normalMatrix = mat4.create();
+      mat4.invert(normalMatrix, this.getModelViewMatrix(gl));
+      mat4.transpose(normalMatrix, normalMatrix);
+
+      gl.uniformMatrix4fv(
+      this.material.getUniform("uNormalMatrix"),
+      false,
+      normalMatrix);
 
       {
         const type = gl.UNSIGNED_SHORT;

@@ -11,10 +11,14 @@ class GLBuffer
         this.stride = 0;                      // how many bytes to get from one set of values to the next
                                         // 0 = use type and numComponents above
         this.offset = 0;               // how many bytes inside the buffer to start from
+
+        this.bufferData = null;
     }
 
     createBuffer(gl, data)
     {
+        this.bufferData = data;
+
         this.buffer = gl.createBuffer();
         gl.bindBuffer(this.gltype, this.buffer);
         if (this.gltype == gl.ELEMENT_ARRAY_BUFFER)
