@@ -84,8 +84,11 @@ class GLMeshObject extends GLObject
 
         for (var i = 0; i < totalBufferData; i++)
         {
-            this.buffers[this.bufferData[i].name].enableBuffer(gl,
+            if (this.material.getAttrib(this.bufferData[i].name) != -1) {
+              this.buffers[this.bufferData[i].name].enableBuffer(gl,
               this.material.getAttrib(this.bufferData[i].name));
+            }
+
         }
     }
 

@@ -73,11 +73,13 @@ class MeshBuilder
         meshObject.vertices = this.vertices;
         meshObject.triangles = this.triangles;
         meshObject.uvs = this.uvs;
-        meshObject.addAttribBufferData(
-            "aVertexNormal",
-            Vector3.fromListToArray(this.normals),
-            3
-            );
+        if (this.normals.length > 0) {
+            meshObject.addAttribBufferData(
+                "aVertexNormal",
+                Vector3.fromListToArray(this.normals),
+                3
+                );
+        }
     }
 
     static createQuad(meshObject,p,v1,v2)

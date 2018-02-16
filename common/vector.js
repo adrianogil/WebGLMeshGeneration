@@ -14,7 +14,7 @@ class Vector3
             return new Vector3(this.x + v, this.y + v, this.z + v);
     }
 
-    multiply(k)
+    multiply(v)
     {
         if (v instanceof Vector3)
             return new Vector3(this.x * v.x, this.y * v.y, this.z * v.z);
